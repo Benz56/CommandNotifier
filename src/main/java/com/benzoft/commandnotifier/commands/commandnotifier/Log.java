@@ -5,16 +5,16 @@ import com.benzoft.commandnotifier.LogContainer;
 import com.benzoft.commandnotifier.PluginPermission;
 import com.benzoft.commandnotifier.commands.AbstractSubCommand;
 import com.benzoft.commandnotifier.persistence.MessagesFile;
+import com.benzoft.commandnotifier.runtimedata.PlayerData;
 import com.benzoft.commandnotifier.runtimedata.PlayerDataManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Log extends AbstractSubCommand {
@@ -78,8 +78,17 @@ public class Log extends AbstractSubCommand {
 
     @Override
     public List<String> onTabComplete(final Player player, final String[] args) {
-        //TODO suggest 1day 1minute
-        return super.onTabComplete(player, args);
+        final List<String> timeUnitSuggestions = new ArrayList<>(Arrays.asList("1day", "1hour", "1min", "1sec"));
+        if (args.length == 1) {
+            final PlayerData playerData = PlayerDataManager.getPlayerData(player, false);
+            if (playerData != null && playerData.getLogContainer() != null) timeUnitSuggestions.addAll(Arrays.asList("page", "p"));
+            return timeUnitSuggestions;
+        } else if (args.length == 2 && Arrays.asList("page", "p").contains(args[0].toLowerCase())) {
+            final PlayerData playerData = PlayerDataManager.getPlayerData(player, false);
+            if (playerData != null && playerData.getLogContainer() != null)
+                return IntStream.range(1, playerData.getLogContainer().getPartitionedLog().isEmpty() ? 2 : playerData.getLogContainer().getPartitionedLog().size() + 1).mapToObj(String::valueOf).collect(Collectors.toList());
+        }
+        return timeUnitSuggestions;
     }
 
     @Getter

@@ -37,7 +37,7 @@ public final class MessagesFile extends AbstractFile {
     @Override
     public void setDefaults() {
         setHeader(
-                "This is the Message file for all Command Notifier messages.",
+                "This is the Message file for all CommandNotifier messages.",
                 "",
                 "All messages are fully customizable and support color codes, formatting and ASCII symbols.",
                 "Set the Prefix and use %prefix% to add the corresponding prefix to a message.",

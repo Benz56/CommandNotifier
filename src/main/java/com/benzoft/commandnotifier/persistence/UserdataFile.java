@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -53,7 +54,7 @@ public final class UserdataFile extends AbstractFile implements Listener {
         }).filter(Objects::nonNull).map(Userdata::new).collect(Collectors.toMap(Userdata::getUuid, Function.identity())));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW) // Execute before the PlayerJoinListener.
     public void onPlayerJoin(final PlayerJoinEvent event) {
         final UUID uuid = event.getPlayer().getUniqueId();
         final ConfigurationSection configurationSection = getConfig().getConfigurationSection("Userdata." + uuid);

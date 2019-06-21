@@ -1,15 +1,40 @@
+############################################################################################
+# +--------------------------------------------------------------------------------------+ #
+# |     ___                                    _  _  _       _    _   __  _              | #
+# |    / __| ___  _ __   _ __   __ _  _ _   __| || \| | ___ | |_ (_) / _|(_) ___  _ _    | #
+# |   | (__ / _ \| '  \ | '  \ / _` || ' \ / _` || .` |/ _ \|  _|| ||  _|| |/ -_)| '_|   | #
+# |    \___|\___/|_|_|_||_|_|_|\__,_||_||_|\__,_||_|\_|\___/ \__||_||_|  |_|\___||_|     | #
+# |                                                                                      | #
+# | By: Benz56                                                                           | #
+# +--------------------------------------------------------------------------------------+ #
+############################################################################################
+
+# Should OPs get command notifications without the commands.notify permission.
 NotifyOpsByDefault: false
 
-# Commands that aren't actual commands.
+# Don't log and notify players of executed commands that aren't actual commands.
 IgnoreInvalidCommands: true
 
+# Notify players with permission of commands executed by other players.
 PlayerCommandNotifications: true
 
+# Notify players with permission of commands executed by the console.
 ConsoleCommandNotifications: true
 
+# Print a partitioned log containing executed commands from their last logout to now.
 ShowLogOnJoin: true
 
-# Specify commands that
+# Specify commands that shouldn't get logged and shouldn't trigger a notification.
+# The plugin will automatically resolve aliases of the ignored commands an ignore those too.
 IgnoreList:
   - commandnotifier
+  - broadcast
+  - balance
+  - tpahere
+  - tpdeny
+  - back
   - fly
+  - god
+  - kit
+  - tpa
+  - is
