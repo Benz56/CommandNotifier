@@ -56,7 +56,7 @@ public class CommandListener implements Listener {
     }
 
     private boolean isIgnoredCommand(final String command) {
-        return ConfigFile.getInstance().getIgnoreList().stream().anyMatch(s -> getAllCommandAliases(command).contains(s));
+        return ConfigFile.getInstance().isInvertIgnoreList() ? ConfigFile.getInstance().getIgnoreList().stream().noneMatch(s -> getAllCommandAliases(command).contains(s)) : ConfigFile.getInstance().getIgnoreList().stream().anyMatch(s -> getAllCommandAliases(command).contains(s));
     }
 
     /**

@@ -24,6 +24,9 @@ ConsoleCommandNotifications: true
 # Print a partitioned log containing executed commands from their last logout to now.
 ShowLogOnJoin: true
 
+# By inverting the IgnoreList you're essentially creating a whitelist.
+InvertIgnoreList: false
+
 # Specify commands that shouldn't get logged and shouldn't trigger a notification.
 # The plugin will automatically resolve aliases of the ignored commands an ignore those too.
 IgnoreList:

@@ -20,6 +20,7 @@ public final class ConfigFile {
     private final boolean playerCommandNotifications;
     private final boolean consoleCommandNotifications;
     private final boolean showLogOnJoin;
+    private final boolean invertIgnoreList;
     private final List<String> ignoreList;
 
     private ConfigFile() {
@@ -31,6 +32,7 @@ public final class ConfigFile {
         playerCommandNotifications = config.getBoolean("PlayerCommandNotifications", true);
         consoleCommandNotifications = config.getBoolean("ConsoleCommandNotifications", true);
         showLogOnJoin = config.getBoolean("ShowLogOnJoin", true);
+        invertIgnoreList = config.getBoolean("InvertIgnoreList", false);
         ignoreList = config.getStringList("IgnoreList").stream().map(String::toLowerCase).collect(Collectors.toList());
     }
 
