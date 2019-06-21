@@ -2,7 +2,6 @@ package com.benzoft.commandnotifier.persistence;
 
 import com.benzoft.commandnotifier.PluginPermission;
 import com.benzoft.commandnotifier.persistence.persistenceobjects.Userdata;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
@@ -15,7 +14,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Getter
 public final class UserdataFile extends AbstractFile implements Listener {
 
     private static final UserdataFile INSTANCE = new UserdataFile();
@@ -30,8 +28,27 @@ public final class UserdataFile extends AbstractFile implements Listener {
         return INSTANCE;
     }
 
+    public Map<UUID, Userdata> getUserdata() {
+        updateUserdata();
+        return userdata;
+    }
+
+    /**
+     * Updates the cached userdata based on permissions which might have changed.
+     */
+    private void updateUserdata() {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (PluginPermission.NOTIFIABLE.checkPermission(player) && !userdata.containsKey(player.getUniqueId())) {
+                userdata.put(player.getUniqueId(), createUserData(player.getUniqueId()));
+            } else if (!PluginPermission.NOTIFIABLE.checkPermission(player) && userdata.containsKey(player.getUniqueId()) && (!player.isOp() || !ConfigFile.getInstance().isNotifyOpsByDefault())) {
+                userdata.remove(player.getUniqueId());
+                getConfig().set("Userdata." + player.getUniqueId(), null);
+            }
+        });
+    }
+
     public Optional<Userdata> getUserdata(final UUID uuid, final boolean createIfNotExists) {
-        return createIfNotExists ? Optional.of(userdata.computeIfAbsent(uuid, this::createUserData)) : Optional.ofNullable(userdata.get(uuid));
+        return createIfNotExists || PluginPermission.NOTIFIABLE.checkPermission(Bukkit.getPlayer(uuid)) ? Optional.of(getUserdata().computeIfAbsent(uuid, this::createUserData)) : Optional.ofNullable(userdata.get(uuid));
     }
 
     private Userdata createUserData(final UUID uuid) {

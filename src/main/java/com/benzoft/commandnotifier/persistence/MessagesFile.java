@@ -55,7 +55,7 @@ public final class MessagesFile extends AbstractFile {
                 "The \"Suggest\" tag is used if the click event should suggest the command. Default is Run.",
                 "");
 
-        prefix = (String) add("Prefix", "&7[&cCommand Notifier&7]");
+        prefix = (String) add("Prefix", "&7[&9CommandNotifier&7]");
         invalidPermission = new Message(add("Messages.General.InvalidPermission", "%prefix% &cYou do not have permission to do this!"));
         noCommands = new Message(add("Messages.General.NoCommands", "Unknown command. Type \"/help\" for help."));
         playerOnly = new Message(add("Messages.General.PlayerOnly", "%prefix% &cCommand can only be used as a Player!"));
@@ -67,8 +67,8 @@ public final class MessagesFile extends AbstractFile {
         executedCommand = new Message(add("Messages.CommandNotifier.ExecutedCommand", "%prefix% &e%player% &aexecuted &e%command%"));
         commandsSinceLogout = new Message(add("Messages.CommandNotifier.CommandsSinceLogout", "%prefix% &eExecuted commands since you last logged out:"));
         noCommandsInSpecifiedTimespan = new Message(add("Messages.CommandNotifier.NoCommandsInSpecifiedTimespan", "%prefix% &cThere were no executed commands in the specified timespan!"));
-        logEntryHeader = new Message(add("Messages.CommandNotifier.LogEntryHeader", "&e&l&m----&e Page &c&a%page%/%pages% &e&l&m------------"));
+        logEntryHeader = new Message(add("Messages.CommandNotifier.LogEntryHeader", "&e&l&m----&e Page &a%page%/%pages% &e&l&m------------"));
         logEntryFormat = new Message(add("Messages.CommandNotifier.LogEntryFormat", " &7&l● &a%timestamp% &e&l> &e%player% &aexecuted &e%command%"));
-        logEntryFooter = new Message(add("Messages.CommandNotifier.LogEntryFooter", "&e&l&m----&e [\"[&cPrevious&f]\",\"/commandnotifier log page previous\",\"&aClick to go to the previous page\"] &e&l&m--&e [\"[&cNext&f]\",\"/commandnotifier log page next\",\"&aClick to go to the next page\"] &e&l&m----"));
+        logEntryFooter = new Message(add("Messages.CommandNotifier.LogEntryFooter", "&e&l&m----&e [\"[&9Previous&f]\",\"/commandnotifier log page previous\",\"&aClick to go to the previous page\"] &e&l&m--&e [\"[&9Next&f]\",\"/commandnotifier log page next\",\"&aClick to go to the next page\"] &e&l&m----"));
     }
 }
