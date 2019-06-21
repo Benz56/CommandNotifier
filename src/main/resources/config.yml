@@ -1,0 +1,15 @@
+NotifyOpsByDefault: false
+
+# Commands that aren't actual commands.
+IgnoreInvalidCommands: true
+
+PlayerCommandNotifications: true
+
+ConsoleCommandNotifications: true
+
+ShowLogOnJoin: true
+
+# Specify commands that
+IgnoreList:
+  - commandnotifier
+  - fly

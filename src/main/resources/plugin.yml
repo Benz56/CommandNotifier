@@ -1,0 +1,16 @@
+name: CommandNotifier
+version: ${project.version}
+main: com.benzoft.commandnotifier.CommandNotifier
+api-version: "1.13"
+authors: [Benz56]
+description: Notifies certain users of command usage.
+website: benzoft.com
+commands:
+  commandnotifier:
+    usage: /commandnotifier
+    description: Get notifications when a user runs a command.
+    aliases:
+      - commandn
+      - cnotifier
+      - comnotifier
+      - cn
