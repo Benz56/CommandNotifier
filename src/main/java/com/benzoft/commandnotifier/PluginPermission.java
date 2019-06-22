@@ -12,7 +12,7 @@ public enum PluginPermission {
     COMMANDS_TOGGLE(new Permission("commandnotifier.commands.toggle", PermissionDefault.OP)),
     COMMANDS_RELOAD(new Permission("commandnotifier.commands.reload", PermissionDefault.OP)),
     NOTIFIABLE(new Permission("commandnotifier.notify", PermissionDefault.FALSE)),
-    UPDATE(new Permission("commandnotifier.update", PermissionDefault.OP));
+    UPDATE(new Permission("commandnotifier.update", PermissionDefault.FALSE));
 
     @Getter
     private final Permission permission;

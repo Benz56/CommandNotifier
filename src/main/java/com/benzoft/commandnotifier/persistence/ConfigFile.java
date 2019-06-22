@@ -22,6 +22,8 @@ public final class ConfigFile {
     private final boolean showLogOnJoin;
     private final boolean invertIgnoreList;
     private final List<String> ignoreList;
+    private final boolean updateCheckerEnabled;
+    private final boolean updateCheckerPermissionOnly;
 
     private ConfigFile() {
         final CommandNotifier plugin = CommandNotifier.getPlugin(CommandNotifier.class);
@@ -34,6 +36,8 @@ public final class ConfigFile {
         showLogOnJoin = config.getBoolean("ShowLogOnJoin", true);
         invertIgnoreList = config.getBoolean("InvertIgnoreList", false);
         ignoreList = config.getStringList("IgnoreList").stream().map(String::toLowerCase).collect(Collectors.toList());
+        updateCheckerEnabled = config.getBoolean("UpdateCheckerEnabled", true);
+        updateCheckerPermissionOnly = config.getBoolean("UpdateCheckerPermissionOnly", false);
     }
 
     public static void reload(final Plugin plugin) {

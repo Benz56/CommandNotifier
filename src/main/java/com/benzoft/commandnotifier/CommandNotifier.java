@@ -23,6 +23,7 @@ public final class CommandNotifier extends JavaPlugin {
         CommandRegistry.registerCommands(this);
         MessagesFile.getInstance();
         ConfigFile.getInstance();
+        new UpdateChecker(this).checkForUpdate();
         logDatabase = new SQLite(this);
         logDatabase.openConnection();
     }
