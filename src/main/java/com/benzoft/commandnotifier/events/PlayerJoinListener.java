@@ -1,6 +1,7 @@
 package com.benzoft.commandnotifier.events;
 
 import com.benzoft.commandnotifier.CommandNotifier;
+import com.benzoft.commandnotifier.PluginPermission;
 import com.benzoft.commandnotifier.persistence.MessagesFile;
 import com.benzoft.commandnotifier.persistence.UserdataFile;
 import com.benzoft.commandnotifier.runtimedata.PlayerDataManager;
@@ -22,7 +23,7 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         UserdataFile.getInstance().getUserdata(player.getUniqueId(), false).ifPresent(userdata -> {
-            if (userdata.isEnabled()) {
+            if (userdata.isEnabled() && PluginPermission.COMMANDS_LOG.checkPermission(event.getPlayer())) {
                 commandNotifier.getLogDatabase().retrieveLogs(userdata.getLastLogout(), logContainer -> {
                     if (!logContainer.getPartitionedLog().isEmpty()) {
                         Bukkit.getScheduler().runTaskLater(commandNotifier, () -> {
