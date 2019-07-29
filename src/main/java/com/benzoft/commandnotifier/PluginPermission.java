@@ -2,22 +2,20 @@ package com.benzoft.commandnotifier;
 
 import lombok.Getter;
 import org.bukkit.permissions.Permissible;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 public enum PluginPermission {
-    COMMANDS(new Permission("commandnotifier.commands", PermissionDefault.OP)),
-    COMMANDS_HELP(new Permission("commandnotifier.commands.help", PermissionDefault.OP)),
-    COMMANDS_LOG(new Permission("commandnotifier.commands.log", PermissionDefault.OP)),
-    COMMANDS_TOGGLE(new Permission("commandnotifier.commands.toggle", PermissionDefault.OP)),
-    COMMANDS_RELOAD(new Permission("commandnotifier.commands.reload", PermissionDefault.OP)),
-    NOTIFIABLE(new Permission("commandnotifier.notify", PermissionDefault.FALSE)),
-    UPDATE(new Permission("commandnotifier.update", PermissionDefault.FALSE));
+    COMMANDS("commandnotifier.commands"),
+    COMMANDS_HELP("commandnotifier.commands.help"),
+    COMMANDS_LOG("commandnotifier.commands.log"),
+    COMMANDS_TOGGLE("commandnotifier.commands.toggle"),
+    COMMANDS_RELOAD("commandnotifier.commands.reload"),
+    NOTIFIABLE("commandnotifier.notify"),
+    UPDATE("commandnotifier.update");
 
     @Getter
-    private final Permission permission;
+    private final String permission;
 
-    PluginPermission(final Permission permission) {
+    PluginPermission(final String permission) {
 
         this.permission = permission;
     }

@@ -14,3 +14,18 @@ commands:
       - cnotifier
       - comnotifier
       - cn
+permissions:
+  commandnotifier.commands:
+    description: Permission to use commands.
+  commandnotifier.commands.help:
+    description: Permission to use the help command.
+  commandnotifier.commands.log:
+    description: Permission to use the log command.
+  commandnotifier.commands.toggle:
+    description: Permission to use the log command.
+  commandnotifier.commands.reload:
+    description: Permission to use the reload command.
+  commandnotifier.notify:
+    default: false
+  commandnotifier.update:
+    default: false
