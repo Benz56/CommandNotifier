@@ -26,6 +26,8 @@ permissions:
   commandnotifier.commands.reload:
     description: Permission to use the reload command.
   commandnotifier.notify:
+    description: Permission to get command execution notifications.
     default: false
   commandnotifier.update:
+    description: Permission to receive update notifications.
     default: false
