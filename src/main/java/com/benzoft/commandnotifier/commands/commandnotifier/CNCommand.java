@@ -19,7 +19,7 @@ public class CNCommand extends AbstractParentCommand {
 
     @Override
     public void onCommand(final Player player, final String[] args) {
-        if (PluginPermission.COMMANDS_HELP.checkPermission(player)) {
+        if (PluginPermission.COMMANDS_HELP.hasPermission(player)) {
             getSubCommands().stream().filter(subCommand -> subCommand.getCommandName().equalsIgnoreCase("help")).findFirst().ifPresent(subCommand -> subCommand.onCommand(player, args));
         } else MessagesFile.getInstance().getInvalidPermission().send(player);
     }

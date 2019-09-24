@@ -1,6 +1,7 @@
 package com.benzoft.commandnotifier.events;
 
 import com.benzoft.commandnotifier.CommandNotifier;
+import com.benzoft.commandnotifier.PluginPermission;
 import com.benzoft.commandnotifier.persistence.ConfigFile;
 import com.benzoft.commandnotifier.persistence.MessagesFile;
 import com.benzoft.commandnotifier.persistence.UserdataFile;
@@ -44,7 +45,10 @@ public class CommandListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommand(final PlayerCommandPreprocessEvent event) {
-        if (ConfigFile.getInstance().isPlayerCommandNotifications()) processCommand(event.getPlayer(), event.getMessage());
+        final Player player = event.getPlayer();
+        if (ConfigFile.getInstance().isPlayerCommandNotifications() && !PluginPermission.LOG_BYPASS.hasPermission(player)) {
+            processCommand(player, event.getMessage());
+        }
     }
 
     private void processCommand(final Player player, final String message) {
@@ -65,11 +69,10 @@ public class CommandListener implements Listener {
      */
     private Set<String> getAllCommandAliases(final String command) {
         final Set<String> aliases = new LinkedHashSet<>();
-        final Optional<String> parent = registeredCommands.entrySet().stream().filter(entrySet -> entrySet.getKey().equals(command) || entrySet.getValue().contains(command)).map(Map.Entry::getKey).findFirst();
-        if (parent.isPresent()) {
-            aliases.add(parent.get());
-            aliases.addAll(registeredCommands.get(parent.get()));
-        }
+        registeredCommands.entrySet().stream().filter(entrySet -> entrySet.getKey().equals(command) || entrySet.getValue().contains(command)).map(Map.Entry::getKey).findFirst().ifPresent(parent -> {
+            aliases.add(parent);
+            aliases.addAll(registeredCommands.get(parent));
+        });
         return aliases;
     }
 

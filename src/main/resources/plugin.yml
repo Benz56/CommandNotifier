@@ -31,3 +31,6 @@ permissions:
   commandnotifier.update:
     description: Permission to receive update notifications.
     default: false
+  commandnotifier.log.bypass:
+    description: Bypass the log with this permission.
+    default: false

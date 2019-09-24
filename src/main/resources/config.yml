@@ -9,7 +9,7 @@
 # +--------------------------------------------------------------------------------------+ #
 ############################################################################################
 
-# Should OPs get command notifications without the commands.notify permission.
+# Should OPs get command notifications without the commandnotifier.notify permission.
 NotifyOpsByDefault: false
 
 # Don't log and notify players of executed commands that aren't actual commands.

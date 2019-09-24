@@ -10,7 +10,8 @@ public enum PluginPermission {
     COMMANDS_TOGGLE("commandnotifier.commands.toggle"),
     COMMANDS_RELOAD("commandnotifier.commands.reload"),
     NOTIFIABLE("commandnotifier.notify"),
-    UPDATE("commandnotifier.update");
+    UPDATE("commandnotifier.update"),
+    LOG_BYPASS("commandnotifier.log.bypass");
 
     @Getter
     private final String permission;
@@ -20,7 +21,7 @@ public enum PluginPermission {
         this.permission = permission;
     }
 
-    public boolean checkPermission(final Permissible player) {
+    public boolean hasPermission(final Permissible player) {
         return player == null || player.hasPermission(permission);
     }
 }

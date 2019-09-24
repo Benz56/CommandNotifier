@@ -61,7 +61,7 @@ class UpdateChecker implements Listener {
                         @EventHandler(priority = EventPriority.MONITOR)
                         public void onPlayerJoin(final PlayerJoinEvent event) {
                             final Player player = event.getPlayer();
-                            if (PluginPermission.UPDATE.checkPermission(player) || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
+                            if (PluginPermission.UPDATE.hasPermission(player) || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
                                 MessageUtil.send(event.getPlayer(), "&7[&9CommandNotifier&7] &fA new update is available at:");
                                 MessageUtil.send(event.getPlayer(), "&bhttps://www.spigotmc.org/resources/" + ID + "/updates");
                             }

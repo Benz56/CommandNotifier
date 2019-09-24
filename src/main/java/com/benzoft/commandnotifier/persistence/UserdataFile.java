@@ -38,9 +38,9 @@ public final class UserdataFile extends AbstractFile implements Listener {
      */
     private void updateUserdata() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (PluginPermission.NOTIFIABLE.checkPermission(player) && !userdata.containsKey(player.getUniqueId())) {
+            if (PluginPermission.NOTIFIABLE.hasPermission(player) && !userdata.containsKey(player.getUniqueId())) {
                 userdata.put(player.getUniqueId(), createUserData(player.getUniqueId()));
-            } else if (!PluginPermission.NOTIFIABLE.checkPermission(player) && userdata.containsKey(player.getUniqueId()) && (!player.isOp() || !ConfigFile.getInstance().isNotifyOpsByDefault())) {
+            } else if (!PluginPermission.NOTIFIABLE.hasPermission(player) && userdata.containsKey(player.getUniqueId()) && (!player.isOp() || !ConfigFile.getInstance().isNotifyOpsByDefault())) {
                 userdata.remove(player.getUniqueId());
                 getConfig().set("Userdata." + player.getUniqueId(), null);
             }
@@ -48,7 +48,7 @@ public final class UserdataFile extends AbstractFile implements Listener {
     }
 
     public Optional<Userdata> getUserdata(final UUID uuid, final boolean createIfNotExists) {
-        return createIfNotExists || PluginPermission.NOTIFIABLE.checkPermission(Bukkit.getPlayer(uuid)) ? Optional.of(getUserdata().computeIfAbsent(uuid, this::createUserData)) : Optional.ofNullable(userdata.get(uuid));
+        return createIfNotExists || PluginPermission.NOTIFIABLE.hasPermission(Bukkit.getPlayer(uuid)) ? Optional.of(getUserdata().computeIfAbsent(uuid, this::createUserData)) : Optional.ofNullable(userdata.get(uuid));
     }
 
     private Userdata createUserData(final UUID uuid) {
@@ -65,7 +65,7 @@ public final class UserdataFile extends AbstractFile implements Listener {
         );
         userdata = new HashMap<>();
         userdata.putAll(Bukkit.getOnlinePlayers().stream().map(player -> {
-            if ((PluginPermission.NOTIFIABLE.checkPermission(player) || player.isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) && !getConfig().contains("Userdata." + player.getUniqueId()))
+            if ((PluginPermission.NOTIFIABLE.hasPermission(player) || player.isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) && !getConfig().contains("Userdata." + player.getUniqueId()))
                 createUserData(player.getUniqueId());
             return getConfig().getConfigurationSection("Userdata." + player.getUniqueId());
         }).filter(Objects::nonNull).map(Userdata::new).collect(Collectors.toMap(Userdata::getUuid, Function.identity())));
@@ -77,7 +77,7 @@ public final class UserdataFile extends AbstractFile implements Listener {
         final ConfigurationSection configurationSection = getConfig().getConfigurationSection("Userdata." + uuid);
         if (configurationSection != null) {
             userdata.put(uuid, new Userdata(configurationSection));
-        } else if (PluginPermission.NOTIFIABLE.checkPermission(event.getPlayer()) || event.getPlayer().isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) {
+        } else if (PluginPermission.NOTIFIABLE.hasPermission(event.getPlayer()) || event.getPlayer().isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) {
             userdata.put(uuid, createUserData(uuid));
         }
     }
@@ -86,7 +86,7 @@ public final class UserdataFile extends AbstractFile implements Listener {
     public void onPlayerLeave(final PlayerQuitEvent event) {
         final Userdata remove = userdata.remove(event.getPlayer().getUniqueId());
         if (remove != null) {
-            if (PluginPermission.NOTIFIABLE.checkPermission(event.getPlayer()) || event.getPlayer().isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) {
+            if (PluginPermission.NOTIFIABLE.hasPermission(event.getPlayer()) || event.getPlayer().isOp() && ConfigFile.getInstance().isNotifyOpsByDefault()) {
                 remove.setLastLogout(System.currentTimeMillis());
             } else getConfig().set("Userdata." + event.getPlayer().getUniqueId(), null);
         }
