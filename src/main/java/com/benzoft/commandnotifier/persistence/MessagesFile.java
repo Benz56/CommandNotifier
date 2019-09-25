@@ -25,6 +25,7 @@ public final class MessagesFile extends AbstractFile {
     private Message logEntryFormat;
     private Message logEntryHeader;
     private Message logEntryFooter;
+    private Message executedCommandDiscord;
 
     private MessagesFile() {
         super("messages.yml");
@@ -65,6 +66,7 @@ public final class MessagesFile extends AbstractFile {
         enabled = new Message(add("Messages.CommandNotifier.Enabled", "%prefix% &aCommand notifications have been enabled!"));
         disabled = new Message(add("Messages.CommandNotifier.Disabled", "%prefix% &aCommand notifications have been disabled!"));
         executedCommand = new Message(add("Messages.CommandNotifier.ExecutedCommand", "%prefix% &e%player% &aexecuted &e%command%"));
+        executedCommandDiscord = new Message(add("Messages.CommandNotifier.ExecutedCommandDiscord", "**%prefix%** *%player%* executed *%command%*"));
         commandsSinceLogout = new Message(add("Messages.CommandNotifier.CommandsSinceLogout", "%prefix% &eExecuted commands since you last logged out:"));
         noCommandsInSpecifiedTimespan = new Message(add("Messages.CommandNotifier.NoCommandsInSpecifiedTimespan", "%prefix% &cThere were no executed commands in the specified timespan!"));
         logEntryHeader = new Message(add("Messages.CommandNotifier.LogEntryHeader", "&e&l&m----&e Page &a%page%/%pages% &e&l&m------------"));

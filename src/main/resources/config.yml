@@ -50,3 +50,9 @@ UpdateCheckerEnabled: true
 # true: OPs are only notified if they have the commandnotifier.update permission as well.
 # N.B. any user with the commandnotifier.update permission is notified; OP or not.
 UpdateCheckerPermissionOnly: false
+
+# Discord Webhook
+# By creating a Discord Webhook you can have CommandNotifier log all commands to your Discord server.
+# For instructions on how to set this up please review the resource description: https://www.spigotmc.org/resources/68554/
+# To disable this leave the value empty.
+WebhookURL: ''

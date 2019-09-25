@@ -24,6 +24,7 @@ public final class ConfigFile {
     private final List<String> ignoreList;
     private final boolean updateCheckerEnabled;
     private final boolean updateCheckerPermissionOnly;
+    private final String webhookURL;
 
     private ConfigFile() {
         final CommandNotifier plugin = CommandNotifier.getPlugin(CommandNotifier.class);
@@ -38,6 +39,7 @@ public final class ConfigFile {
         ignoreList = config.getStringList("IgnoreList").stream().map(String::toLowerCase).collect(Collectors.toList());
         updateCheckerEnabled = config.getBoolean("UpdateCheckerEnabled", true);
         updateCheckerPermissionOnly = config.getBoolean("UpdateCheckerPermissionOnly", false);
+        webhookURL = config.getString("WebhookURL", "");
     }
 
     public static void reload(final Plugin plugin) {

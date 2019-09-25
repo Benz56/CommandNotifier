@@ -5,7 +5,10 @@ import com.benzoft.commandnotifier.PluginPermission;
 import com.benzoft.commandnotifier.persistence.ConfigFile;
 import com.benzoft.commandnotifier.persistence.MessagesFile;
 import com.benzoft.commandnotifier.persistence.UserdataFile;
+import com.benzoft.commandnotifier.persistence.persistenceobjects.Message;
+import com.benzoft.commandnotifier.utils.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
@@ -51,11 +54,14 @@ public class CommandListener implements Listener {
         }
     }
 
-    private void processCommand(final Player player, final String message) {
+    private void processCommand(final Player player, String message) {
         final String command = message.replaceAll("/", "").split(" ")[0].toLowerCase();
         if ((!ConfigFile.getInstance().isIgnoreInvalidCommands() || isCommand(command)) && !isIgnoredCommand(command)) {
             commandNotifier.getLogDatabase().logCommand(player, new ArrayList<>(getAllCommandAliases(command)).get(0), message);
-            UserdataFile.getInstance().getUserdata().entrySet().stream().filter(entry -> entry.getValue().isEnabled() && (player == null || !entry.getKey().equals(player.getUniqueId()))).forEach(entry -> MessagesFile.getInstance().getExecutedCommand().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message.startsWith("/") ? message : "/" + message).send(Bukkit.getPlayer(entry.getKey())));
+            message = message.startsWith("/") ? message : "/" + message;
+            final Message formatted = MessagesFile.getInstance().getExecutedCommand().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message);
+            UserdataFile.getInstance().getUserdata().entrySet().stream().filter(entry -> entry.getValue().isEnabled() && (player == null || !entry.getKey().equals(player.getUniqueId()))).forEach(entry -> formatted.send(Bukkit.getPlayer(entry.getKey())));
+            commandNotifier.getDiscordHook().sendCommand(ChatColor.stripColor(MessagesFile.getInstance().getExecutedCommandDiscord().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message).replaceAll("%prefix%", MessageUtil.translate(MessagesFile.getInstance().getPrefix())).toString()));
         }
     }
 

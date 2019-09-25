@@ -11,10 +11,11 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class CommandNotifier extends JavaPlugin {
 
-    @Getter
     private Database logDatabase;
+    private DiscordHook discordHook;
 
     @Override
     public void onEnable() {
@@ -24,6 +25,7 @@ public final class CommandNotifier extends JavaPlugin {
         MessagesFile.getInstance();
         ConfigFile.getInstance();
         new UpdateChecker(this).checkForUpdate();
+        discordHook = new DiscordHook(this);
         logDatabase = new SQLite(this);
         logDatabase.openConnection();
     }
