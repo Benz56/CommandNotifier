@@ -6,7 +6,7 @@
 
     <groupId>com.benzoft.commandnotifier</groupId>
     <artifactId>commandnotifier</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
 
     <name>CommandNotifier</name>
@@ -72,11 +72,6 @@
             <artifactId>spigot-api</artifactId>
             <version>1.14.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.kevinsawicki</groupId>
-            <artifactId>http-request</artifactId>
-            <version>6.0</version>
         </dependency>
     </dependencies>
 </project>
