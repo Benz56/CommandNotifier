@@ -62,7 +62,7 @@ public class Log extends AbstractSubCommand {
                 MessagesFile.getInstance().getInvalidArguments().send(player);
                 return;
             }
-            commandNotifier.getLogDatabase().retrieveLogs(System.currentTimeMillis() - specifiedTime, logContainer -> {
+            commandNotifier.getLogDatabase().retrieveLogs(System.currentTimeMillis() - specifiedTime).whenComplete(logContainer -> {
                 if (logContainer.getPartitionedLog().isEmpty()) {
                     MessagesFile.getInstance().getNoCommandsInSpecifiedTimespan().send(player);
                     return;

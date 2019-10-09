@@ -24,7 +24,7 @@ public class PlayerJoinListener implements Listener {
         final Player player = event.getPlayer();
         UserdataFile.getInstance().getUserdata(player.getUniqueId(), false).ifPresent(userdata -> {
             if (userdata.isEnabled() && PluginPermission.COMMANDS_LOG.hasPermission(event.getPlayer())) {
-                commandNotifier.getLogDatabase().retrieveLogs(userdata.getLastLogout(), logContainer -> {
+                commandNotifier.getLogDatabase().retrieveLogs(userdata.getLastLogout()).whenComplete(logContainer -> {
                     if (!logContainer.getPartitionedLog().isEmpty()) {
                         Bukkit.getScheduler().runTaskLater(commandNotifier, () -> {
                             MessagesFile.getInstance().getCommandsSinceLogout().send(player);

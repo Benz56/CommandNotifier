@@ -2,7 +2,8 @@ package com.benzoft.commandnotifier.persistence.database;
 
 import com.benzoft.commandnotifier.LogContainer;
 import com.benzoft.commandnotifier.persistence.persistenceobjects.LogEntry;
-import org.bukkit.Bukkit;
+import com.benzoft.commandnotifier.tasks.AsyncSupplierTask;
+import com.benzoft.commandnotifier.tasks.AsyncTask;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -10,7 +11,6 @@ import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class SQLite implements Database {
 
@@ -66,7 +66,7 @@ public class SQLite implements Database {
 
     @Override
     public void logCommand(final Player player, final String parentCommand, final String fullCommand) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        AsyncTask.supplyAsync(() -> {
             try (final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + DATABASE_NAME + " (Timestamp, UUID, Username, ParentCommand, ExecutedCommand) VALUES (?,?,?,?,?)")) {
                 preparedStatement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
                 preparedStatement.setString(2, player == null ? "Console" : player.getUniqueId().toString());
@@ -77,23 +77,23 @@ public class SQLite implements Database {
             } catch (final SQLException e) {
                 e.printStackTrace();
             }
-        });
+        }).complete();
     }
 
     @Override
-    public void retrieveLogs(final long from, final Consumer<LogContainer> onRetrieve) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+    public AsyncSupplierTask<LogContainer> retrieveLogs(final long from) {
+        return AsyncTask.supplyAsync(() -> {
             try (final PreparedStatement preparedStatement = connection.prepareStatement("SELECT Timestamp, Username, ExecutedCommand FROM " + DATABASE_NAME + " WHERE Timestamp >= " + from + " ORDER BY Timestamp DESC")) {
                 final List<LogEntry> entries = new ArrayList<>();
                 final ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next())
                     entries.add(new LogEntry(resultSet.getTimestamp("Timestamp"), resultSet.getString("Username"), resultSet.getString("ExecutedCommand")));
-                Bukkit.getScheduler().runTask(plugin, () -> onRetrieve.accept(new LogContainer(entries)));
+                return new LogContainer(entries);
             } catch (final SQLException e) {
                 e.printStackTrace();
             }
+            return null;
         });
     }
-
 
 }

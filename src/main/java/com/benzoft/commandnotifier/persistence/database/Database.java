@@ -1,9 +1,8 @@
 package com.benzoft.commandnotifier.persistence.database;
 
 import com.benzoft.commandnotifier.LogContainer;
+import com.benzoft.commandnotifier.tasks.AsyncSupplierTask;
 import org.bukkit.entity.Player;
-
-import java.util.function.Consumer;
 
 public interface Database {
 
@@ -13,5 +12,5 @@ public interface Database {
 
     void logCommand(final Player player, final String parentCommand, final String fullCommand);
 
-    void retrieveLogs(long from, final Consumer<LogContainer> onRetrieve);
+    AsyncSupplierTask<LogContainer> retrieveLogs(long from);
 }
