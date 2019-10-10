@@ -1,6 +1,7 @@
 package com.benzoft.commandnotifier;
 
 import com.benzoft.commandnotifier.persistence.ConfigFile;
+import com.benzoft.commandnotifier.tasks.AsyncTask;
 import com.benzoft.commandnotifier.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,7 +37,7 @@ class UpdateChecker implements Listener {
             @Override
             public void run() {
                 //The request is executed asynchronously as to not block the main thread.
-                Bukkit.getScheduler().runTaskAsynchronously(javaPlugin, () -> {
+                AsyncTask.supplyAsync(() -> {
                     if (!ConfigFile.getInstance().isUpdateCheckerEnabled()) return;
                     //Request the current version of your plugin on SpigotMC.
                     try {
@@ -70,7 +71,7 @@ class UpdateChecker implements Listener {
 
                     //Cancel the runnable as an update is found.
                     cancel();
-                });
+                }).complete();
             }
         }.runTaskTimer(javaPlugin, 0, 12_000);
     }

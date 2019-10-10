@@ -25,7 +25,7 @@ public final class CommandNotifier extends JavaPlugin {
         MessagesFile.getInstance();
         ConfigFile.getInstance();
         new UpdateChecker(this).checkForUpdate();
-        discordHook = new DiscordHook(this);
+        discordHook = new DiscordHook();
         logDatabase = new SQLite(this);
         logDatabase.openConnection();
     }

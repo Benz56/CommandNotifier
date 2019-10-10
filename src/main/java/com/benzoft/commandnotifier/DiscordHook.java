@@ -1,7 +1,7 @@
 package com.benzoft.commandnotifier;
 
 import com.benzoft.commandnotifier.persistence.ConfigFile;
-import org.bukkit.Bukkit;
+import com.benzoft.commandnotifier.tasks.AsyncTask;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -11,17 +11,11 @@ import java.nio.charset.StandardCharsets;
 
 public class DiscordHook {
 
-    private final CommandNotifier commandNotifier;
-
-    DiscordHook(final CommandNotifier commandNotifier) {
-        this.commandNotifier = commandNotifier;
-    }
-
     public void sendCommand(final String command) {
         final String webhookURL = ConfigFile.getInstance().getWebhookURL();
         if (webhookURL.isEmpty()) return;
 
-        Bukkit.getScheduler().runTaskAsynchronously(commandNotifier, () -> {
+        AsyncTask.supplyAsync(() -> {
             try {
                 final HttpsURLConnection connection = (HttpsURLConnection) new URL(webhookURL).openConnection();
                 connection.setRequestMethod("POST");
@@ -35,6 +29,6 @@ public class DiscordHook {
             } catch (final IOException e) {
                 e.printStackTrace();
             }
-        });
+        }).complete();
     }
 }
