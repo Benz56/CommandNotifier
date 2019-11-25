@@ -57,7 +57,7 @@ public class CommandListener implements Listener {
     private void processCommand(final Player player, String message) {
         final String command = message.replaceAll("/", "").split(" ")[0].toLowerCase();
         if ((!ConfigFile.getInstance().isIgnoreInvalidCommands() || isCommand(command)) && !isIgnoredCommand(command)) {
-            commandNotifier.getLogDatabase().logCommand(player, new ArrayList<>(getAllCommandAliases(command)).get(0), message);
+            commandNotifier.getLogDatabase().logCommand(player, isCommand(command) ? new ArrayList<>(getAllCommandAliases(command)).get(0) : command, message);
             message = message.startsWith("/") ? message : "/" + message;
             final Message formatted = MessagesFile.getInstance().getExecutedCommand().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message);
             UserdataFile.getInstance().getUserdata().entrySet().stream().filter(entry -> entry.getValue().isEnabled() && (player == null || !entry.getKey().equals(player.getUniqueId()))).forEach(entry -> formatted.send(Bukkit.getPlayer(entry.getKey())));
@@ -83,6 +83,6 @@ public class CommandListener implements Listener {
     }
 
     private boolean isCommand(final String command) {
-        return registeredCommands.keySet().contains(command) || registeredCommands.values().stream().anyMatch(aliases -> aliases.contains(command));
+        return registeredCommands.containsKey(command) || registeredCommands.values().stream().anyMatch(aliases -> aliases.contains(command));
     }
 }
