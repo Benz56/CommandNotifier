@@ -19,8 +19,8 @@ public class Message {
         this.messages.addAll(messages);
     }
 
-    public Message replaceAll(final String regex, final Object value) {
-        return new Message(new ArrayList<>(messages).stream().map(entry -> entry.replaceAll(regex, String.valueOf(value))).collect(Collectors.toList()));
+    public Message replace(final String target, final Object replacement) {
+        return new Message(new ArrayList<>(messages).stream().map(entry -> entry.replace(target, String.valueOf(replacement))).collect(Collectors.toList()));
     }
 
     public void send() {

@@ -59,9 +59,9 @@ public class CommandListener implements Listener {
         if ((!ConfigFile.getInstance().isIgnoreInvalidCommands() || isCommand(command)) && !isIgnoredCommand(command)) {
             commandNotifier.getLogDatabase().logCommand(player, isCommand(command) ? new ArrayList<>(getAllCommandAliases(command)).get(0) : command, message);
             message = message.startsWith("/") ? message : "/" + message;
-            final Message formatted = MessagesFile.getInstance().getExecutedCommand().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message);
+            final Message formatted = MessagesFile.getInstance().getExecutedCommand().replace("%player%", player != null ? player.getName() : "Console").replace("%command%", message);
             UserdataFile.getInstance().getUserdata().entrySet().stream().filter(entry -> entry.getValue().isEnabled() && (player == null || !entry.getKey().equals(player.getUniqueId()))).forEach(entry -> formatted.send(Bukkit.getPlayer(entry.getKey())));
-            commandNotifier.getDiscordHook().sendCommand(ChatColor.stripColor(MessagesFile.getInstance().getExecutedCommandDiscord().replaceAll("%player%", player != null ? player.getName() : "Console").replaceAll("%command%", message).replaceAll("%prefix%", MessageUtil.translate(MessagesFile.getInstance().getPrefix())).toString()));
+            commandNotifier.getDiscordHook().sendCommand(ChatColor.stripColor(MessagesFile.getInstance().getExecutedCommandDiscord().replace("%player%", player != null ? player.getName() : "Console").replace("%command%", message).replace("%prefix%", MessageUtil.translate(MessagesFile.getInstance().getPrefix())).toString()));
         }
     }
 

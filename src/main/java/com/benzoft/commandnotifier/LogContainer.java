@@ -29,10 +29,10 @@ public class LogContainer {
     public void showEntries(final int page) {
         try {
             final List<LogEntry> logEntries = partitionedLog.get(page);
-            MessagesFile.getInstance().getLogEntryHeader().replaceAll("%page%", page + 1).replaceAll("%pages%", partitionedLog.size()).send(player);
+            MessagesFile.getInstance().getLogEntryHeader().replace("%page%", page + 1).replace("%pages%", partitionedLog.size()).send(player);
             final int longestUsername = Collections.max(logEntries, Comparator.comparingInt(o -> o.getUsername().length())).getUsername().length();
-            logEntries.forEach(logEntry -> MessagesFile.getInstance().getLogEntryFormat().replaceAll("%timestamp%", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(logEntry.getTimestamp())).replaceAll("%player%", String.format("%-" + longestUsername + "s", logEntry.getUsername())).replaceAll("%command%", logEntry.getExecutedCommand()).send(player));
-            MessagesFile.getInstance().getLogEntryFooter().replaceAll("%page%", page + 1).replaceAll("%pages%", partitionedLog.size()).send(player);
+            logEntries.forEach(logEntry -> MessagesFile.getInstance().getLogEntryFormat().replace("%timestamp%", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(logEntry.getTimestamp())).replace("%player%", String.format("%-" + longestUsername + "s", logEntry.getUsername())).replace("%command%", logEntry.getExecutedCommand()).send(player));
+            MessagesFile.getInstance().getLogEntryFooter().replace("%page%", page + 1).replace("%pages%", partitionedLog.size()).send(player);
             currentPage = page;
         } catch (final IndexOutOfBoundsException e) {
             MessagesFile.getInstance().getInvalidArguments().send(player);

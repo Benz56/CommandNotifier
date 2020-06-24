@@ -1,8 +1,10 @@
 package com.benzoft.commandnotifier;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.permissions.Permissible;
 
+@RequiredArgsConstructor
 public enum PluginPermission {
     COMMANDS("commandnotifier.commands"),
     COMMANDS_HELP("commandnotifier.commands.help"),
@@ -15,11 +17,6 @@ public enum PluginPermission {
 
     @Getter
     private final String permission;
-
-    PluginPermission(final String permission) {
-
-        this.permission = permission;
-    }
 
     public boolean hasPermission(final Permissible player) {
         return player == null || player.hasPermission(permission);
